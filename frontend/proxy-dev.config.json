@@ -1,14 +1,14 @@
 {
     "/auth/login": {
-        "target": "http://193.23.160.46:9797"
+        "target": "http://localhost:9797"
     },
     "/auth/github/login": {
-        "target": "http://193.23.160.46:9797"
+        "target": "http://localhost:9797"
     },
     "/auth/github/callback2": {
-        "target": "http://193.23.160.46:9797"
+        "target": "http://localhost:9797"
     },
     "/api/**": {
-        "target": "http://193.23.160.46:9797"
+        "target": "http://localhost:9797"
     }
 }
