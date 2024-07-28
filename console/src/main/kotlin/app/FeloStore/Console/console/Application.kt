@@ -1,0 +1,108 @@
+// Copyright 2023-2024 Logan Magee
+//
+// SPDX-License-Identifier: AGPL-3.0-only
+
+package app.FeloStore.Console.console
+
+import app.FeloStore.Console.console.data.configureDatabase
+import app.FeloStore.Console.console.jobs.configureJobRunr
+import app.FeloStore.Console.console.publish.PublishService
+import app.FeloStore.Console.console.publish.S3PublishService
+import app.FeloStore.Console.console.routes.auth.configureAuthentication
+import app.FeloStore.Console.console.storage.FileStorageService
+import app.FeloStore.Console.console.storage.LocalFileStorageService
+import aws.smithy.kotlin.runtime.net.url.Url
+import cc.ekblad.toml.decode
+import cc.ekblad.toml.tomlMapper
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.HttpTimeout
+import io.ktor.serialization.kotlinx.json.json
+import io.ktor.server.application.Application
+import io.ktor.server.application.install
+import io.ktor.server.application.log
+import io.ktor.server.netty.EngineMain
+import io.ktor.server.plugins.contentnegotiation.ContentNegotiation
+import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.json.Json
+import org.koin.dsl.module
+import org.koin.ktor.ext.inject
+import org.koin.ktor.plugin.Koin
+import org.koin.logger.slf4jLogger
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlin.io.path.Path
+
+private const val DEFAULT_CONFIG_PATH = "/etc/pconsole/config.toml"
+
+fun main(args: Array<String>) = EngineMain.main(args)
+
+@OptIn(ExperimentalSerializationApi::class)
+fun Application.module() {
+    log.info("Starting Console console 0.7.0")
+
+    val config = if (environment.developmentMode) {
+        val fileStorageDir = System.getenv("FILE_STORAGE_BASE_DIR")
+        Files.createDirectories(Path(fileStorageDir))
+
+        Config(
+            application = Config.Application(
+                baseUrl = System.getenv("BASE_URL"),
+                databasePath = System.getenv("CONSOLE_DATABASE_PATH"),
+                fileStorageDir = fileStorageDir,
+            ),
+            s3 = Config.S3(
+                endpointUrl = System.getenv("S3_ENDPOINT_URL"),
+                region = System.getenv("S3_REGION"),
+                bucket = System.getenv("S3_BUCKET"),
+                accessKeyId = System.getenv("S3_ACCESS_KEY_ID"),
+                secretAccessKey = System.getenv("S3_SECRET_ACCESS_KEY"),
+            ),
+            github = Config.GitHub(
+                clientId = System.getenv("GITHUB_OAUTH2_CLIENT_ID")
+                    ?: throw Exception("GITHUB_OAUTH2_CLIENT_ID not specified in environment"),
+                clientSecret = System.getenv("GITHUB_OAUTH2_CLIENT_SECRET")
+                    ?: throw Exception("GITHUB_OAUTH2_CLIENT_SECRET not specified in environment"),
+                redirectUrl = System.getenv("GITHUB_OAUTH2_REDIRECT_URL"),
+            ),
+        )
+    } else {
+        val configPath = System.getenv("CONFIG_PATH") ?: DEFAULT_CONFIG_PATH
+        tomlMapper { }.decode(Path.of(configPath))
+    }
+
+    install(Koin) {
+        slf4jLogger()
+
+        val mainModule = module {
+            single { config }
+            single<FileStorageService> { LocalFileStorageService(Path(config.application.fileStorageDir)) }
+            single { HttpClient { install(HttpTimeout) } }
+            single<PublishService> {
+                S3PublishService(
+                    Url.parse(config.s3.endpointUrl),
+                    config.s3.region,
+                    config.s3.bucket,
+                    config.s3.accessKeyId,
+                    config.s3.secretAccessKey,
+                )
+            }
+        }
+
+        modules(mainModule)
+    }
+    val httpClient: HttpClient by inject()
+
+    install(ContentNegotiation) {
+        json(Json {
+            explicitNulls = false
+        })
+    }
+    configureJobRunr(configureDatabase())
+    configureAuthentication(
+        githubClientId = config.github.clientId,
+        githubClientSecret = config.github.clientSecret,
+        githubRedirectUrl = config.github.redirectUrl,
+        httpClient = httpClient,
+    )
+    configureRouting()
+}

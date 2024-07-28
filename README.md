@@ -4,14 +4,14 @@ Copyright 2024 Logan Magee
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
-# Parcelo
+# Console
 
-The next-generation Accrescent developer console.
+The next-generation FeloStore developer console.
 
 ## About
 
-Parcelo is the server technology that powers [Accrescent]. It includes the developer console server
-and the console web frontend. Parcelo currently features:
+Console is the server technology that powers [FeloStore]. It includes the developer console server
+and the console web frontend. Console currently features:
 
 - GitHub account login
 - User registration whitelisting
@@ -25,5 +25,5 @@ Something missing you think you could add? If you're interested in contributing,
 [contributing guidelines] for instructions on setting up the development environment and other
 helpful information.
 
-[Accrescent]: https://accrescent.app
+[FeloStore]: https://FeloStore.app
 [contributing guidelines]: CONTRIBUTING.md

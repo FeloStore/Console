@@ -11,11 +11,11 @@ plugins {
     alias(libs.plugins.dokka)
 }
 
-group = "app.accrescent"
+group = "app.FeloStore"
 version = "0.7.0"
 
 application {
-    mainClass.set("app.accrescent.parcelo.console.ApplicationKt")
+    mainClass.set("app.FeloStore.Console.console.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -59,7 +59,7 @@ tasks.withType<DokkaTask>().configureEach {
 
             perPackageOption {
                 // FIXME(#494): Document console and remove this exclusion
-                matchingRegex.set("""app\.accrescent\.parcelo\.console(?:\.(?:data(?:\.baseline)?(?:\.net)?|routes))?""")
+                matchingRegex.set("""app\.FeloStore\.Console\.console(?:\.(?:data(?:\.baseline)?(?:\.net)?|routes))?""")
                 reportUndocumented.set(false)
             }
         }

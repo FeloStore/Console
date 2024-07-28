@@ -4,8 +4,8 @@
 
 package db.migration
 
-import app.accrescent.parcelo.console.Config
-import app.accrescent.parcelo.console.data.App
+import app.FeloStore.Console.console.Config
+import app.FeloStore.Console.console.data.App
 import aws.sdk.kotlin.runtime.auth.credentials.StaticCredentialsProvider
 import aws.sdk.kotlin.services.s3.S3Client
 import aws.sdk.kotlin.services.s3.model.GetObjectRequest

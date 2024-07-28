@@ -6,12 +6,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 # Contributing guidelines
 
-Thank you for your interest in contributing to Parcelo! Please read below for development setup
+Thank you for your interest in contributing to Console! Please read below for development setup
 steps.
 
 ## Development setup
 
-The recommended and supported development environment for Parcelo is Intellij IDEA (the community
+The recommended and supported development environment for Console is Intellij IDEA (the community
 edition is fine). You will also need to install the following tools:
 
 - npm
@@ -50,8 +50,8 @@ fine for most use cases.
 
 ## Contributor license agreement
 
-Contributing to Parcelo requires signing a Contributor License Agreement (CLA). To sign [Parcelo's
+Contributing to Console requires signing a Contributor License Agreement (CLA). To sign [Console's
 CLA], make a PR, and our CLA bot will direct you.
 
 [GitHub developer settings]: https://github.com/settings/developers
-[Parcelo's CLA]: https://gist.github.com/lberrymage/21603f43c6c018001e31d441125ad5de
+[Console's CLA]: https://gist.github.com/lberrymage/21603f43c6c018001e31d441125ad5de
