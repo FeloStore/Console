@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-only
       <env name="GITHUB_OAUTH2_REDIRECT_URL" value="http://localhost:4200/auth/github/callback" />
       <env name="HOST" value="0.0.0.0" />
       <env name="PORT" value="9797" />
-      <env name="S3_ENDPOINT_URL" value="http://localhost:9000" />
+      <env name="S3_ENDPOINT_URL" value="http://n2.felo.gg:9000" />
       <env name="S3_REGION" value="us-east-1" />
       <env name="S3_BUCKET" value="Console-repo" />
     </envs>
