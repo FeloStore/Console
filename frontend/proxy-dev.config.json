@@ -1,14 +1,14 @@
 {
     "/auth/login": {
-        "target": "http://localhost:8080"
+        "target": "http://localhost:9797"
     },
     "/auth/github/login": {
-        "target": "http://localhost:8080"
+        "target": "http://localhost:9797"
     },
     "/auth/github/callback2": {
-        "target": "http://localhost:8080"
+        "target": "http://localhost:9797"
     },
     "/api/**": {
-        "target": "http://localhost:8080"
+        "target": "http://localhost:9797"
     }
 }
