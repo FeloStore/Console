@@ -24,7 +24,7 @@ steps below to get started.
 
 1. Open the project in IDEA and install the required EnvFile plugin as prompted.
 2. Navigate to your [GitHub developer settings] and click "Register a new application."
-3. Set the "Authorization callback URL" field to `http://n2.felo.gg:9797/auth/github/callback`. Fill
+3. Set the "Authorization callback URL" field to `http://localhost:9797/auth/github/callback`. Fill
    in the other fields with whatever you like.
 4. Click "Register application."
 5. Copy the client ID from the resulting page into a file named `.env` with the contents

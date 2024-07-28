@@ -1,14 +1,14 @@
 {
     "/auth/login": {
-        "target": "http://n2.felo.gg:9797"
+        "target": "http://localhost:9797"
     },
     "/auth/github/login": {
-        "target": "http://n2.felo.gg:9797"
+        "target": "http://localhost:9797"
     },
     "/auth/github/callback2": {
-        "target": "http://n2.felo.gg:9797"
+        "target": "http://localhost:9797"
     },
     "/api/**": {
-        "target": "http://n2.felo.gg:9797"
+        "target": "http://localhost:9797"
     }
 }
